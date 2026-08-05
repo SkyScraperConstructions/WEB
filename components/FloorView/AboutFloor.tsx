@@ -1,91 +1,130 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { FloorLayout } from './FloorLayout';
 import { AnimatedCounter } from '../AnimatedCounter';
 import { SKYSCAPER_CONTENT } from '@/lib/content';
-import { SectionId } from '@/lib/state';
-import { ChevronRight } from 'lucide-react';
+import { SceneState } from '@/lib/state';
+import { ArrowLeft, ArrowRight, Award, Building2, Globe, Users } from 'lucide-react';
 
 interface AboutFloorProps {
   onBackToLobby: () => void;
-  onNavigateSection: (sec: SectionId) => void;
+  onNavigateSection: (sec: SceneState) => void;
 }
 
+const statIcons = [
+  <Award key="award" className="w-6 h-6 text-[#c9a84c]" />,
+  <Building2 key="building" className="w-6 h-6 text-[#c9a84c]" />,
+  <Globe key="globe" className="w-6 h-6 text-[#c9a84c]" />,
+  <Users key="users" className="w-6 h-6 text-[#c9a84c]" />,
+];
+
 export function AboutFloor({ onBackToLobby, onNavigateSection }: AboutFloorProps) {
-  const [showFullStory, setShowFullStory] = useState(false);
-
   return (
-    <FloorLayout
-      sectionId="about"
-      onBackToLobby={onBackToLobby}
-      childrenLeft={
-        <div className="space-y-6">
-          {/* Header */}
-          <div className="space-y-2">
-            <span className="text-xs font-mono font-bold text-cyan-400 tracking-wider uppercase bg-cyan-950/80 px-2.5 py-1 rounded border border-cyan-500/30">
-              FLOORS L01 - L19 // GROUND ATRIUM & SKY LOBBY
-            </span>
-            <h2 className="font-mono text-2xl sm:text-3xl font-extrabold text-white glow-text-cyan">
-              {SKYSCAPER_CONTENT.about.heading}
+    <div className="page-container">
+      {/* Full-bleed background image */}
+      <motion.img
+        src="/about-us.jpeg"
+        alt="About Us — executive office interior"
+        className="full-bleed-bg"
+        initial={{ scale: 1.05, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 1.08, opacity: 0 }}
+        transition={{ duration: 1, ease: 'easeOut' }}
+      />
+
+      {/* Content overlay */}
+      <div className="content-overlay">
+        {/* Main content area — left side */}
+        <div className="flex-1 flex flex-col justify-center px-6 sm:px-10 lg:px-14 py-24 max-w-xl">
+          {/* ABOUT US heading */}
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.7 }}
+          >
+            <h2 className="heading-display text-3xl sm:text-4xl lg:text-5xl">
+              ABOUT US
             </h2>
-          </div>
+            <div className="golden-divider mt-4 mb-6" />
+          </motion.div>
 
-          <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-light">
-            {SKYSCAPER_CONTENT.about.storyIntro}
-          </p>
+          {/* Body paragraphs */}
+          <motion.div
+            initial={{ y: 15, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.7 }}
+            className="space-y-4 mb-8"
+          >
+            <p className="body-text">
+              {SKYSCAPER_CONTENT.about.bodyParagraph1}
+            </p>
+            <p className="body-text">
+              {SKYSCAPER_CONTENT.about.bodyParagraph2}
+            </p>
+          </motion.div>
 
-          {/* "OUR STORY →" Expandable Link */}
-          <div className="space-y-3">
-            <button
-              onClick={() => setShowFullStory(!showFullStory)}
-              className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-200 font-mono text-xs font-bold transition-colors group"
+          {/* OUR STORY button */}
+          <motion.div
+            initial={{ y: 15, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.7 }}
+          >
+            <motion.button
+              className="pill-button"
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              onClick={() => onNavigateSection('about')}
             >
-              <span>{showFullStory ? 'HIDE OUR STORY ↑' : 'OUR STORY →'}</span>
-              <ChevronRight
-                className={`w-4 h-4 transition-transform ${showFullStory ? '-rotate-90' : ''}`}
-              />
-            </button>
-
-            {showFullStory && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                className="p-3.5 rounded-lg bg-slate-900/90 border border-cyan-500/30 text-xs text-slate-300 leading-relaxed font-light"
-              >
-                {SKYSCAPER_CONTENT.about.fullStory}
-              </motion.div>
-            )}
-          </div>
-
-          {/* 4 Stat Counters */}
-          <div className="pt-2 border-t border-cyan-500/20">
-            <h4 className="text-xs font-mono text-cyan-400 font-bold uppercase tracking-wider mb-3">
-              KEY PERFORMANCE METRICS
-            </h4>
-            <div className="grid grid-cols-2 gap-3">
-              {SKYSCAPER_CONTENT.about.stats.map((stat) => (
-                <div
-                  key={stat.id}
-                  className="p-3 rounded-xl bg-slate-950/80 border border-cyan-500/25 hover:border-cyan-400/60 transition-colors"
-                >
-                  <div className="font-mono text-2xl sm:text-3xl font-extrabold text-amber-400 glow-text-amber">
-                    <AnimatedCounter end={stat.value} suffix={stat.suffix} />
-                  </div>
-                  <div className="text-xs font-mono text-slate-200 font-semibold mt-0.5">
-                    {stat.label}
-                  </div>
-                  <div className="text-[10px] text-slate-400 font-light mt-0.5">
-                    {stat.description}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+              <span>OUR STORY</span>
+              <ArrowRight className="w-4 h-4" />
+            </motion.button>
+          </motion.div>
         </div>
-      }
-    />
+
+        {/* Bottom stats strip */}
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.7, duration: 0.7 }}
+          className="px-6 sm:px-10 lg:px-14 pb-6"
+        >
+          {/* Divider line */}
+          <div className="w-full h-px bg-white/10 mb-6" />
+
+          <div className="flex items-start gap-8 sm:gap-12 lg:gap-16">
+            {SKYSCAPER_CONTENT.about.stats.map((stat, idx) => (
+              <div key={stat.id} className="flex flex-col items-start">
+                {/* Icon */}
+                <div className="mb-2 opacity-70">
+                  {statIcons[idx]}
+                </div>
+                {/* Value */}
+                <div className="stat-value">
+                  <AnimatedCounter end={stat.value} suffix={stat.suffix} />
+                </div>
+                {/* Label */}
+                <div className="stat-label whitespace-pre-line mt-1">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Back to Lobby */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.9, duration: 0.7 }}
+          className="px-6 sm:px-10 lg:px-14 pb-6"
+        >
+          <button onClick={onBackToLobby} className="back-link">
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>BACK TO LOBBY</span>
+          </button>
+        </motion.div>
+      </div>
+    </div>
   );
 }

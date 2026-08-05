@@ -2,123 +2,86 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { SceneState, SectionId, VALID_SECTIONS } from '@/lib/state';
-import { SKYSCAPER_CONTENT } from '@/lib/content';
-import { Volume2, VolumeX, Building, Compass, Layers, ShieldCheck } from 'lucide-react';
+import { Volume2, VolumeX } from 'lucide-react';
 
 interface NavigationHeaderProps {
-  sceneState: SceneState;
-  onNavigate: (state: SceneState) => void;
+  show: boolean;
 }
 
-export function NavigationHeader({ sceneState, onNavigate }: NavigationHeaderProps) {
+export function NavigationHeader({ show }: NavigationHeaderProps) {
   const [isAudioMuted, setIsAudioMuted] = useState(true);
 
-  const toggleAudio = () => {
-    setIsAudioMuted((prev) => !prev);
-  };
-
-  const getBadgeLabel = () => {
-    if (sceneState === 'intro') return 'STAGE 1: BLUEPRINT ANIMATION';
-    if (sceneState === 'enter') return 'STAGE 2: SKYLINE ENTER';
-    if (sceneState === 'lobby') return 'STAGE 3: INTERACTIVE TOWER LOBBY';
-    return `STAGE 4: ${sceneState.toUpperCase()} FLOOR CUTAWAY`;
-  };
+  if (!show) return null;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-8 py-3.5 flex items-center justify-between border-b border-cyan-500/20 bg-[#070d18]/80 backdrop-blur-md">
-      {/* Brand Logo & Wordmark */}
+    <header className="fixed top-0 left-0 right-0 z-50 px-6 sm:px-10 py-5 flex items-start justify-between pointer-events-none">
+      {/* Top-Left: Logo Icon + Wordmark */}
       <motion.div
-        onClick={() => onNavigate('lobby')}
-        className="flex items-center gap-3 cursor-pointer group select-none"
-        whileHover={{ scale: 1.02 }}
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+        className="flex items-center gap-3 pointer-events-auto"
       >
-        <div className="relative w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-700 flex items-center justify-center shadow-[0_0_15px_rgba(0,240,255,0.4)] border border-cyan-300/40">
-          <Building className="w-5 h-5 text-white" />
-          <div className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
+        {/* Tower Icon SVG matching the reference */}
+        <div className="w-10 h-12 flex items-center justify-center">
+          <svg
+            viewBox="0 0 40 48"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full h-full"
+          >
+            {/* Three tower lines */}
+            <rect x="12" y="8" width="3" height="36" rx="1" fill="white" opacity="0.9" />
+            <rect x="18.5" y="2" width="3" height="42" rx="1" fill="white" opacity="0.9" />
+            <rect x="25" y="8" width="3" height="36" rx="1" fill="white" opacity="0.9" />
+            {/* Base line */}
+            <rect x="8" y="44" width="24" height="2" rx="1" fill="white" opacity="0.6" />
+            {/* Top spire */}
+            <rect x="19.25" y="0" width="1.5" height="4" rx="0.75" fill="white" opacity="0.7" />
+          </svg>
         </div>
 
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="font-mono text-base sm:text-lg font-bold tracking-widest text-white group-hover:text-cyan-300 transition-colors">
-              {SKYSCAPER_CONTENT.brand.name}
-            </h1>
-            <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-500/30 hidden md:inline-block">
-              72 FLOORS
-            </span>
-          </div>
-          <p className="text-[10px] font-mono text-cyan-400/80 tracking-wider">
-            {SKYSCAPER_CONTENT.brand.tagline}
+          <h1
+            className="text-base sm:text-lg font-light tracking-[0.35em] text-white"
+            style={{ fontFamily: 'var(--font-outfit), var(--font-sans), system-ui, sans-serif' }}
+          >
+            SKYSCAPER
+          </h1>
+          <p
+            className="text-[10px] tracking-[0.2em] text-white/50 font-light mt-0.5"
+            style={{ fontFamily: 'var(--font-sans), system-ui, sans-serif' }}
+          >
+            BUILDING TOMORROW
           </p>
         </div>
       </motion.div>
 
-      {/* Center Scene Status Badge (Desktop) */}
-      <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-full glass-panel border border-cyan-500/30 text-xs font-mono text-slate-300">
-        <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-        <span>{getBadgeLabel()}</span>
-      </div>
-
-      {/* Quick Navigation Controls */}
-      <div className="flex items-center gap-2 sm:gap-4">
-        {/* Quick Floor Direct Nav Buttons (Visible when in lobby or floor view) */}
-        {sceneState !== 'intro' && sceneState !== 'enter' && (
-          <nav className="hidden md:flex items-center gap-1 bg-slate-950/80 p-1 rounded-lg border border-cyan-500/20 text-xs font-mono">
-            {VALID_SECTIONS.map((sec) => {
-              const isActive = sceneState === sec;
-              return (
-                <button
-                  key={sec}
-                  onClick={() => onNavigate(sec)}
-                  className={`px-2.5 py-1 rounded transition-all ${
-                    isActive
-                      ? 'bg-cyan-500/30 text-cyan-300 font-bold border border-cyan-400/50 shadow-[0_0_10px_rgba(0,240,255,0.3)]'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
-                  }`}
-                >
-                  {sec.toUpperCase()}
-                </button>
-              );
-            })}
-            <button
-              onClick={() => onNavigate('lobby')}
-              className={`px-2.5 py-1 rounded transition-all ${
-                sceneState === 'lobby'
-                  ? 'bg-cyan-500/30 text-cyan-300 font-bold border border-cyan-400/50'
-                  : 'text-cyan-400 hover:text-cyan-200 hover:bg-slate-800/50'
-              }`}
-            >
-              LOBBY
-            </button>
-          </nav>
-        )}
-
-        {/* Ambient Audio Toggle */}
-        <button
-          onClick={toggleAudio}
-          title={isAudioMuted ? 'Unmute Ambient Sound' : 'Mute Ambient Sound'}
-          className="p-2 rounded-lg glass-panel hover:bg-slate-800/80 border border-cyan-500/30 text-cyan-400 transition-colors"
+      {/* Top-Right: Sound Toggle */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="flex items-center gap-3 pointer-events-auto"
+      >
+        <span
+          className="text-xs tracking-[0.15em] text-white/50 font-light hidden sm:inline"
+          style={{ fontFamily: 'var(--font-sans), system-ui, sans-serif' }}
         >
-          {isAudioMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4 animate-pulse" />}
+          SOUND
+        </span>
+        <button
+          onClick={() => setIsAudioMuted(!isAudioMuted)}
+          className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white/40 transition-all"
+          title={isAudioMuted ? 'Unmute' : 'Mute'}
+        >
+          {isAudioMuted ? (
+            <VolumeX className="w-4 h-4" />
+          ) : (
+            <Volume2 className="w-4 h-4" />
+          )}
         </button>
-
-        {/* Enter / Reset Button */}
-        {sceneState === 'intro' ? (
-          <button
-            onClick={() => onNavigate('enter')}
-            className="px-3 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/40 text-cyan-300 border border-cyan-400/40 text-xs font-mono font-bold transition-all"
-          >
-            SKIP INTRO →
-          </button>
-        ) : (
-          <button
-            onClick={() => onNavigate('intro')}
-            className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 text-xs font-mono transition-all"
-          >
-            REPLAY INTRO
-          </button>
-        )}
-      </div>
+      </motion.div>
     </header>
   );
 }

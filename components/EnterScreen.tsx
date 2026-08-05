@@ -2,8 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { SKYSCAPER_CONTENT } from '@/lib/content';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 interface EnterScreenProps {
   onEnterLobby: () => void;
@@ -11,99 +10,75 @@ interface EnterScreenProps {
 
 export function EnterScreen({ onEnterLobby }: EnterScreenProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="relative min-h-screen w-full flex flex-col items-center justify-center select-none z-10 overflow-hidden"
-    >
-      {/* Photoreal tower background — wide shot */}
-      <motion.div
+    <div className="page-container">
+      {/* Full-bleed background image */}
+      <motion.img
+        src="/enter-screen.jpeg"
+        alt="SKYSCAPER Tower at dusk — enter screen"
+        className="full-bleed-bg"
         initial={{ scale: 1.05, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 1.08, opacity: 0 }}
         transition={{ duration: 1.2, ease: 'easeOut' }}
-        className="absolute inset-0 z-0"
-      >
-        <img
-          src="/tower-wide.png"
-          alt="SKYSCAPER Tower at dusk"
-          className="w-full h-full object-cover object-center"
-        />
-        {/* Darkening overlays for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#070d18] via-[#070d18]/60 to-[#070d18]/40" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#070d18]/50 via-transparent to-transparent" />
-      </motion.div>
+      />
 
       {/* Content overlay */}
-      <div className="relative z-20 flex flex-col items-center text-center px-4 max-w-2xl space-y-6">
-        {/* Badge */}
-        <motion.div
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.7 }}
-          className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-black/50 backdrop-blur-sm border border-cyan-500/30 text-cyan-300 font-mono text-xs font-semibold tracking-wider"
-        >
-          <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-          <span>GLOBAL HEADQUARTERS & MONUMENT</span>
-        </motion.div>
-
-        {/* Title */}
-        <motion.h1
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
-          className="font-mono text-5xl sm:text-7xl md:text-8xl font-extrabold tracking-tight text-white drop-shadow-[0_0_40px_rgba(0,240,255,0.3)]"
-        >
-          {SKYSCAPER_CONTENT.brand.name}
-        </motion.h1>
-
-        {/* Tagline */}
-        <motion.p
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
-          className="font-mono text-lg sm:text-2xl font-bold tracking-[0.3em] text-cyan-400 drop-shadow-[0_0_20px_rgba(0,240,255,0.4)]"
-        >
-          {SKYSCAPER_CONTENT.brand.tagline}
-        </motion.p>
-
-        {/* Description */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7, duration: 0.8 }}
-          className="text-slate-300/90 text-sm sm:text-base font-light max-w-lg leading-relaxed"
-        >
-          {SKYSCAPER_CONTENT.brand.heroDescription}
-        </motion.p>
-
-        {/* Enter Button */}
-        <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.9, duration: 0.8 }}
-        >
-          <motion.button
-            onClick={onEnterLobby}
-            whileHover={{ scale: 1.06, boxShadow: '0 0 40px rgba(0, 240, 255, 0.5)' }}
-            whileTap={{ scale: 0.95 }}
-            className="group relative inline-flex items-center gap-3 px-10 py-4 rounded-full bg-gradient-to-r from-cyan-500 via-blue-600 to-cyan-400 text-slate-950 font-mono font-extrabold text-base tracking-wider shadow-[0_0_30px_rgba(0,240,255,0.35)] border border-cyan-300/60"
+      <div className="content-overlay items-center justify-center text-center">
+        {/* Center: Title + Tagline + Enter button */}
+        <div className="flex flex-col items-center gap-4">
+          {/* SKYSCAPER heading */}
+          <motion.h1
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="heading-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
+            style={{ letterSpacing: '0.45em' }}
           >
-            <span>ENTER LOBBY</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform" />
-            <span className="absolute -inset-1 rounded-full bg-cyan-400/20 blur-lg -z-10 group-hover:bg-cyan-400/30 transition-colors" />
-          </motion.button>
-        </motion.div>
+            SKYSCAPER
+          </motion.h1>
 
-        <motion.p
+          {/* BUILDING TOMORROW subtitle */}
+          <motion.p
+            initial={{ y: 15, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            className="text-sm sm:text-base tracking-[0.3em] text-white/60 font-light"
+            style={{ fontFamily: 'var(--font-outfit), var(--font-sans), system-ui, sans-serif' }}
+          >
+            BUILDING TOMORROW
+          </motion.p>
+
+          {/* ENTER button */}
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.8, duration: 0.8 }}
+            className="mt-6"
+          >
+            <motion.button
+              onClick={onEnterLobby}
+              className="pill-button"
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+            >
+              <span>ENTER</span>
+              <ArrowRight className="w-4 h-4" />
+            </motion.button>
+          </motion.div>
+        </div>
+
+        {/* Bottom-left label */}
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.8 }}
-          className="text-xs font-mono text-cyan-400/50 tracking-wider"
+          transition={{ delay: 1, duration: 0.8 }}
+          className="absolute bottom-6 left-6 sm:left-10"
         >
-          PRESS TO INITIALIZE TOWER NAVIGATION
-        </motion.p>
+          <span className="text-xs tracking-[0.15em] text-white/40 font-light">
+            2. ENTER SCREEN
+          </span>
+        </motion.div>
       </div>
-    </motion.div>
+    </div>
   );
 }

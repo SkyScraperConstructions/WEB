@@ -2,84 +2,72 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { SceneState, SectionId, VALID_SECTIONS } from '@/lib/state';
+import { SceneState } from '@/lib/state';
 
 interface ProgressRailProps {
   sceneState: SceneState;
-  activeHoverFloor: SectionId | null;
-  onSelectSection: (sectionId: SectionId) => void;
-  onHoverSection: (sectionId: SectionId | null) => void;
+  onSelectSection: (state: SceneState) => void;
 }
 
-export function ProgressRail({
-  sceneState,
-  activeHoverFloor,
-  onSelectSection,
-  onHoverSection,
-}: ProgressRailProps) {
-  const rails: { id: SectionId; label: string; floorNum: string }[] = [
-    { id: 'contact', label: 'CONTACT US', floorNum: 'L70-72' },
-    { id: 'projects', label: 'PROJECTS', floorNum: 'L45-69' },
-    { id: 'services', label: 'SERVICES', floorNum: 'L20-44' },
-    { id: 'about', label: 'ABOUT US', floorNum: 'L01-19' },
-  ];
+const RAIL_ITEMS: { num: string; stateId: SceneState }[] = [
+  { num: '01', stateId: 'enter' },
+  { num: '02', stateId: 'about' },
+  { num: '03', stateId: 'services' },
+  { num: '04', stateId: 'projects' },
+  { num: '05', stateId: 'contact' },
+];
 
-  // Only render on lobby or floor views
-  if (sceneState === 'intro' || sceneState === 'enter') return null;
+export function ProgressRail({ sceneState, onSelectSection }: ProgressRailProps) {
+  // Hide during intro
+  if (sceneState === 'intro') return null;
+
+  // Determine which dot is active
+  const getActiveIndex = (): number => {
+    switch (sceneState) {
+      case 'enter':
+      case 'lobby':
+        return 0;
+      case 'about':
+        return 1;
+      case 'services':
+        return 2;
+      case 'projects':
+        return 3;
+      case 'contact':
+        return 4;
+      default:
+        return -1;
+    }
+  };
+
+  const activeIdx = getActiveIndex();
 
   return (
-    <div className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-40 flex flex-col items-end gap-5 pointer-events-auto">
-      {/* Vertical Connecting Line */}
-      <div className="absolute right-[11px] top-2 bottom-2 w-[1px] bg-gradient-to-b from-amber-400 via-cyan-400 to-blue-500 opacity-40 -z-10" />
+    <motion.div
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.6, delay: 0.3 }}
+      className="dot-rail"
+    >
+      {/* Connecting vertical line */}
+      <div className="dot-rail-line" />
 
-      {rails.map((rail) => {
-        const isActive = sceneState === rail.id;
-        const isHovered = activeHoverFloor === rail.id;
+      {RAIL_ITEMS.map((item, idx) => {
+        const isActive = idx === activeIdx;
 
         return (
-          <div
-            key={rail.id}
-            onClick={() => onSelectSection(rail.id)}
-            onMouseEnter={() => onHoverSection(rail.id)}
-            onMouseLeave={() => onHoverSection(null)}
-            className="group flex items-center gap-3 cursor-pointer select-none"
+          <motion.div
+            key={`${item.num}-${idx}`}
+            onClick={() => onSelectSection(item.stateId)}
+            className={`dot-rail-item ${isActive ? 'active' : ''}`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            {/* Hover Tooltip Label */}
-            <motion.div
-              initial={{ opacity: 0, x: 10 }}
-              whileHover={{ opacity: 1, x: 0 }}
-              animate={{ opacity: isActive || isHovered ? 1 : 0, x: isActive || isHovered ? 0 : 10 }}
-              className={`hidden sm:flex items-center gap-2 px-2.5 py-1 rounded glass-panel text-xs font-mono font-bold border transition-all ${
-                isActive
-                  ? 'bg-cyan-950/90 text-cyan-300 border-cyan-400 shadow-[0_0_12px_rgba(0,240,255,0.4)]'
-                  : 'bg-navy-main/80 text-slate-300 border-cyan-500/30'
-              }`}
-            >
-              <span className="text-[10px] text-cyan-400 font-normal">{rail.floorNum}</span>
-              <span>{rail.label}</span>
-            </motion.div>
-
-            {/* Glowing Indicator Dot Node */}
-            <div className="relative flex items-center justify-center w-6 h-6">
-              {isActive && (
-                <motion.div
-                  layoutId="rail-active-ring"
-                  className="absolute inset-0 rounded-full border-2 border-cyan-400 animate-ping opacity-75"
-                />
-              )}
-              <div
-                className={`w-3.5 h-3.5 rounded-full transition-all duration-300 ${
-                  isActive
-                    ? 'bg-cyan-400 shadow-[0_0_15px_#00f0ff] scale-125'
-                    : isHovered
-                    ? 'bg-amber-400 shadow-[0_0_12px_#ffb830] scale-110'
-                    : 'bg-slate-700 hover:bg-slate-400 border border-slate-500'
-                }`}
-              />
-            </div>
-          </div>
+            <span className="dot-rail-number">{item.num}</span>
+            <div className="dot-rail-dot" />
+          </motion.div>
         );
       })}
-    </div>
+    </motion.div>
   );
 }

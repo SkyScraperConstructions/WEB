@@ -2,17 +2,19 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FloorLayout } from './FloorLayout';
 import { SKYSCAPER_CONTENT } from '@/lib/content';
-import { SectionId } from '@/lib/state';
 import {
-  Mail,
+  ArrowLeft,
+  ArrowRight,
   User,
-  MessageSquare,
-  Send,
-  CheckCircle,
-  MapPin,
+  Mail,
+  Building2,
+  List,
+  Pen,
   Phone,
+  MailIcon,
+  MapPin,
+  CheckCircle,
 } from 'lucide-react';
 
 interface ContactFloorProps {
@@ -23,11 +25,16 @@ export function ContactFloor({ onBackToLobby }: ContactFloorProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    inquiryType: SKYSCAPER_CONTENT.contact.formOptions[0],
+    company: '',
+    projectType: '',
     message: '',
   });
 
-  const [errors, setErrors] = useState<{ name?: string; email?: string; message?: string }>({});
+  const [errors, setErrors] = useState<{
+    name?: string;
+    email?: string;
+    message?: string;
+  }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -39,8 +46,7 @@ export function ContactFloor({ onBackToLobby }: ContactFloorProps) {
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Valid email address required';
     }
-    if (!formData.message.trim()) newErrors.message = 'Message content is required';
-
+    if (!formData.message.trim()) newErrors.message = 'Message is required';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -48,10 +54,7 @@ export function ContactFloor({ onBackToLobby }: ContactFloorProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-
     setIsSubmitting(true);
-
-    // Simulate API network submission
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
@@ -59,81 +62,75 @@ export function ContactFloor({ onBackToLobby }: ContactFloorProps) {
   };
 
   const handleReset = () => {
-    setFormData({
-      name: '',
-      email: '',
-      inquiryType: SKYSCAPER_CONTENT.contact.formOptions[0],
-      message: '',
-    });
+    setFormData({ name: '', email: '', company: '', projectType: '', message: '' });
     setIsSubmitted(false);
     setErrors({});
   };
 
   return (
-    <FloorLayout
-      sectionId="contact"
-      onBackToLobby={onBackToLobby}
-      childrenLeft={
-        <div className="space-y-5">
-          {/* Header */}
-          <div className="space-y-2">
-            <span className="text-xs font-mono font-bold text-amber-400 tracking-wider uppercase bg-amber-950/80 px-2.5 py-1 rounded border border-amber-500/30">
-              FLOORS L70 - L72 // EXECUTIVE PENTHOUSE HQ
-            </span>
-            <h2 className="font-mono text-2xl sm:text-3xl font-extrabold text-white glow-text-amber">
-              {SKYSCAPER_CONTENT.contact.heading}
-            </h2>
-          </div>
+    <div className="page-container">
+      {/* Full-bleed background image */}
+      <motion.img
+        src="/contact-us.jpeg"
+        alt="Contact Us — executive boardroom"
+        className="full-bleed-bg"
+        initial={{ scale: 1.05, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 1.08, opacity: 0 }}
+        transition={{ duration: 1, ease: 'easeOut' }}
+      />
 
-          <p className="text-slate-300 text-xs sm:text-sm font-light leading-relaxed">
-            {SKYSCAPER_CONTENT.contact.subheading}
-          </p>
+      {/* Content overlay */}
+      <div className="content-overlay">
+        {/* Main content area — left side */}
+        <div className="flex-1 flex flex-col justify-start px-6 sm:px-10 lg:px-14 pt-24 pb-4 max-w-sm">
+          {/* CONTACT US heading */}
+          <motion.h2
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.7 }}
+            className="heading-display text-3xl sm:text-4xl lg:text-5xl mb-5"
+          >
+            CONTACT US
+          </motion.h2>
 
-          {/* Contact Info */}
-          <div className="flex flex-col gap-1.5 text-xs font-mono">
-            <div className="flex items-center gap-2 text-slate-300">
-              <MapPin className="w-3.5 h-3.5 text-amber-400" />
-              <span className="text-[11px]">{SKYSCAPER_CONTENT.contact.officeLocation}</span>
-            </div>
-            <div className="flex items-center gap-2 text-slate-300">
-              <Phone className="w-3.5 h-3.5 text-cyan-400" />
-              <span className="text-[11px]">{SKYSCAPER_CONTENT.contact.phone}</span>
-            </div>
-          </div>
+          {/* Body text */}
+          <motion.p
+            initial={{ y: 15, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.35, duration: 0.7 }}
+            className="body-text mb-6"
+          >
+            {SKYSCAPER_CONTENT.contact.bodyText}
+          </motion.p>
 
-          {/* Interactive Front-End Form */}
+          {/* Form */}
           <AnimatePresence mode="wait">
             {isSubmitted ? (
               <motion.div
-                key="submitted"
-                initial={{ opacity: 0, scale: 0.9 }}
+                key="success"
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                className="p-6 rounded-xl bg-slate-950/90 border border-amber-400/60 text-center space-y-4 shadow-2xl"
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="flex flex-col items-center text-center py-8 gap-4"
               >
-                <div className="w-12 h-12 rounded-full bg-amber-500/20 border border-amber-400 flex items-center justify-center mx-auto text-amber-400">
-                  <CheckCircle className="w-6 h-6 animate-bounce" />
+                <div className="w-14 h-14 rounded-full border border-[#c9a84c]/50 flex items-center justify-center">
+                  <CheckCircle className="w-7 h-7 text-[#c9a84c]" />
                 </div>
-
-                <div className="space-y-1">
-                  <h3 className="font-mono text-lg font-bold text-white glow-text-amber">
-                    TRANSMISSION RECEIVED
-                  </h3>
-                  <p className="text-xs text-slate-300">
-                    Thank you, <span className="text-amber-400 font-bold">{formData.name}</span>.
-                    Our principal partners have received your inquiry.
-                  </p>
-                </div>
-
-                <div className="p-3 rounded-lg bg-[#0a1628] border border-cyan-500/20 text-[11px] font-mono text-cyan-300">
-                  REF ID: #SKY-{Math.floor(100000 + Math.random() * 900000)} // HQ DISPATCHED
-                </div>
-
+                <h3
+                  className="text-lg font-light tracking-[0.2em] text-white"
+                  style={{ fontFamily: 'var(--font-outfit), var(--font-sans), system-ui, sans-serif' }}
+                >
+                  MESSAGE SENT
+                </h3>
+                <p className="text-sm text-white/50 font-light">
+                  Thank you, <span className="text-[#c9a84c]">{formData.name}</span>. We&apos;ll be in touch shortly.
+                </p>
                 <button
                   onClick={handleReset}
-                  className="px-4 py-2 rounded-lg bg-amber-500/20 hover:bg-amber-500/40 text-amber-300 border border-amber-400/50 font-mono text-xs font-bold transition-colors"
+                  className="pill-button mt-2 text-xs"
                 >
-                  SEND ANOTHER TRANSMISSION
+                  SEND ANOTHER
                 </button>
               </motion.div>
             ) : (
@@ -143,103 +140,225 @@ export function ContactFloor({ onBackToLobby }: ContactFloorProps) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="space-y-3 pt-1"
+                className="space-y-3"
               >
-                {/* Name Input */}
+                {/* Name */}
                 <div>
-                  <label className="block text-[11px] font-mono text-slate-300 font-bold mb-1">
-                    YOUR FULL NAME *
-                  </label>
                   <div className="relative">
-                    <User className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                    <User className="w-4 h-4 text-white/30 absolute left-3 top-1/2 -translate-y-1/2" />
                     <input
                       type="text"
-                      placeholder="e.g. Eleanor Vance"
+                      placeholder="Your Name"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className={`w-full pl-9 pr-3 py-2.5 rounded-lg bg-slate-950/80 border text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400 font-mono transition-colors ${
-                        errors.name ? 'border-red-500' : 'border-cyan-500/30'
-                      }`}
+                      className={`form-input pl-10 ${errors.name ? 'error' : ''}`}
                     />
                   </div>
-                  {errors.name && <span className="text-[10px] text-red-400 font-mono mt-0.5 block">{errors.name}</span>}
+                  {errors.name && (
+                    <span className="text-[10px] text-red-400/80 mt-0.5 block pl-1">{errors.name}</span>
+                  )}
                 </div>
 
-                {/* Email Input */}
+                {/* Email */}
                 <div>
-                  <label className="block text-[11px] font-mono text-slate-300 font-bold mb-1">
-                    WORK EMAIL ADDRESS *
-                  </label>
                   <div className="relative">
-                    <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                    <Mail className="w-4 h-4 text-white/30 absolute left-3 top-1/2 -translate-y-1/2" />
                     <input
                       type="email"
-                      placeholder="e.g. eleanor@horizon.com"
+                      placeholder="Email Address"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className={`w-full pl-9 pr-3 py-2.5 rounded-lg bg-slate-950/80 border text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400 font-mono transition-colors ${
-                        errors.email ? 'border-red-500' : 'border-cyan-500/30'
-                      }`}
+                      className={`form-input pl-10 ${errors.email ? 'error' : ''}`}
                     />
                   </div>
-                  {errors.email && <span className="text-[10px] text-red-400 font-mono mt-0.5 block">{errors.email}</span>}
+                  {errors.email && (
+                    <span className="text-[10px] text-red-400/80 mt-0.5 block pl-1">{errors.email}</span>
+                  )}
                 </div>
 
-                {/* Inquiry Type Select */}
-                <div>
-                  <label className="block text-[11px] font-mono text-slate-300 font-bold mb-1">
-                    INQUIRY CATEGORY
-                  </label>
+                {/* Company */}
+                <div className="relative">
+                  <Building2 className="w-4 h-4 text-white/30 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    placeholder="Company (Optional)"
+                    value={formData.company}
+                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                    className="form-input pl-10"
+                  />
+                </div>
+
+                {/* Project Type */}
+                <div className="relative">
+                  <List className="w-4 h-4 text-white/30 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                   <select
-                    value={formData.inquiryType}
-                    onChange={(e) => setFormData({ ...formData, inquiryType: e.target.value })}
-                    className="w-full px-3 py-2.5 rounded-lg bg-slate-950/80 border border-cyan-500/30 text-xs text-slate-100 focus:outline-none focus:border-amber-400 font-mono"
+                    value={formData.projectType}
+                    onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
+                    className="form-select pl-10"
                   >
+                    <option value="" disabled>Project Type</option>
                     {SKYSCAPER_CONTENT.contact.formOptions.map((opt) => (
-                      <option key={opt} value={opt} className="bg-slate-900 text-slate-100">
-                        {opt}
-                      </option>
+                      <option key={opt} value={opt}>{opt}</option>
                     ))}
                   </select>
+                  <ArrowRight className="w-3 h-3 text-white/30 absolute right-3 top-1/2 -translate-y-1/2 rotate-90 pointer-events-none" />
                 </div>
 
-                {/* Message Textarea */}
+                {/* Message */}
                 <div>
-                  <label className="block text-[11px] font-mono text-slate-300 font-bold mb-1">
-                    VISION / PROJECT SCOPE DETAILS *
-                  </label>
-                  <textarea
-                    rows={3}
-                    placeholder="Describe target building height, location, or architectural requirements..."
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className={`w-full p-3 rounded-lg bg-slate-950/80 border text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400 font-mono transition-colors resize-none ${
-                      errors.message ? 'border-red-500' : 'border-cyan-500/30'
-                    }`}
-                  />
-                  {errors.message && <span className="text-[10px] text-red-400 font-mono mt-0.5 block">{errors.message}</span>}
+                  <div className="relative">
+                    <Pen className="w-4 h-4 text-white/30 absolute left-3 top-3.5" />
+                    <textarea
+                      placeholder="Your Message"
+                      rows={3}
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      className={`form-input pl-10 resize-none ${errors.message ? 'error' : ''}`}
+                      style={{ alignItems: 'flex-start' }}
+                    />
+                  </div>
+                  {errors.message && (
+                    <span className="text-[10px] text-red-400/80 mt-0.5 block pl-1">{errors.message}</span>
+                  )}
                 </div>
 
-                {/* Submit Button */}
-                <button
+                {/* Send Message button */}
+                <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-lg bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 text-slate-950 font-mono font-extrabold text-xs tracking-wider shadow-[0_0_20px_rgba(255,184,48,0.4)] border border-amber-300 hover:scale-[1.01] active:scale-[0.98] transition-transform disabled:opacity-50"
+                  className="pill-button w-full justify-center mt-2"
+                  style={{ borderColor: 'rgba(201, 168, 76, 0.4)' }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   {isSubmitting ? (
-                    <span className="animate-pulse">TRANSMITTING...</span>
+                    <span className="animate-pulse">SENDING...</span>
                   ) : (
                     <>
-                      <span>SEND MESSAGE →</span>
-                      <Send className="w-4 h-4" />
+                      <span>SEND MESSAGE</span>
+                      <ArrowRight className="w-4 h-4" />
                     </>
                   )}
-                </button>
+                </motion.button>
               </motion.form>
             )}
           </AnimatePresence>
         </div>
-      }
-    />
+
+        {/* Bottom: Contact info + social */}
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.7, duration: 0.7 }}
+          className="px-6 sm:px-10 lg:px-14 pb-4"
+        >
+          <div className="w-full h-px bg-white/10 mb-5" />
+
+          <div className="flex flex-wrap items-start gap-8 sm:gap-12">
+            {/* Call Us */}
+            <div className="flex flex-col items-start gap-1">
+              <div className="flex items-center gap-2 mb-1">
+                <Phone className="w-4 h-4 text-white/40" />
+              </div>
+              <span
+                className="text-[10px] tracking-[0.1em] text-white/60 uppercase font-medium"
+                style={{ fontFamily: 'var(--font-sans), system-ui, sans-serif' }}
+              >
+                CALL US
+              </span>
+              <span className="text-xs text-white/80 font-light">
+                {SKYSCAPER_CONTENT.contact.phone}
+              </span>
+            </div>
+
+            {/* Email Us */}
+            <div className="flex flex-col items-start gap-1">
+              <div className="flex items-center gap-2 mb-1">
+                <MailIcon className="w-4 h-4 text-white/40" />
+              </div>
+              <span
+                className="text-[10px] tracking-[0.1em] text-white/60 uppercase font-medium"
+                style={{ fontFamily: 'var(--font-sans), system-ui, sans-serif' }}
+              >
+                EMAIL US
+              </span>
+              <span className="text-xs text-white/80 font-light">
+                {SKYSCAPER_CONTENT.contact.email}
+              </span>
+            </div>
+
+            {/* Our Office */}
+            <div className="flex flex-col items-start gap-1">
+              <div className="flex items-center gap-2 mb-1">
+                <MapPin className="w-4 h-4 text-white/40" />
+              </div>
+              <span
+                className="text-[10px] tracking-[0.1em] text-white/60 uppercase font-medium"
+                style={{ fontFamily: 'var(--font-sans), system-ui, sans-serif' }}
+              >
+                OUR OFFICE
+              </span>
+              <span className="text-xs text-white/80 font-light whitespace-pre-line">
+                {SKYSCAPER_CONTENT.contact.officeLocation}
+              </span>
+            </div>
+          </div>
+
+          {/* Social links */}
+          <div className="flex items-center gap-4 mt-5">
+            <span
+              className="text-[10px] tracking-[0.1em] text-white/50 uppercase font-medium"
+              style={{ fontFamily: 'var(--font-sans), system-ui, sans-serif' }}
+            >
+              FOLLOW US
+            </span>
+            {/* LinkedIn */}
+            <a
+              href="#"
+              className="w-8 h-8 rounded border border-white/15 flex items-center justify-center text-white/50 hover:text-white hover:border-white/40 transition-all"
+              aria-label="LinkedIn"
+            >
+              <span className="text-xs font-bold">in</span>
+            </a>
+            {/* Instagram */}
+            <a
+              href="#"
+              className="w-8 h-8 rounded border border-white/15 flex items-center justify-center text-white/50 hover:text-white hover:border-white/40 transition-all"
+              aria-label="Instagram"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
+                <rect x="2" y="2" width="20" height="20" rx="5" />
+                <circle cx="12" cy="12" r="5" />
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+              </svg>
+            </a>
+            {/* YouTube */}
+            <a
+              href="#"
+              className="w-8 h-8 rounded border border-white/15 flex items-center justify-center text-white/50 hover:text-white hover:border-white/40 transition-all"
+              aria-label="YouTube"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
+                <rect x="2" y="4" width="20" height="16" rx="4" />
+                <polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none" />
+              </svg>
+            </a>
+          </div>
+        </motion.div>
+
+        {/* Back to Lobby */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.9, duration: 0.7 }}
+          className="px-6 sm:px-10 lg:px-14 pb-6"
+        >
+          <button onClick={onBackToLobby} className="back-link">
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>BACK TO LOBBY</span>
+          </button>
+        </motion.div>
+      </div>
+    </div>
   );
 }

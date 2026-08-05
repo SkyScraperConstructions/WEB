@@ -16,7 +16,6 @@ export type SectionId = (typeof VALID_SECTIONS)[number];
 
 export function useSceneState() {
   const [sceneState, setSceneState] = useState<SceneState>('intro');
-  const [activeHoverFloor, setActiveHoverFloor] = useState<SectionId | null>(null);
 
   // Sync state with URL Hash
   useEffect(() => {
@@ -52,14 +51,12 @@ export function useSceneState() {
   }, []);
 
   const backToLobby = useCallback(() => {
-    goToState('lobby');
+    goToState('enter');
   }, [goToState]);
 
   return {
     sceneState,
     goToState,
     backToLobby,
-    activeHoverFloor,
-    setActiveHoverFloor,
   };
 }
