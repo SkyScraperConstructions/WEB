@@ -43,14 +43,14 @@ export function ProjectsFloor({ onBackToLobby }: ProjectsFloorProps) {
       {/* Content overlay */}
       <div className="content-overlay">
         {/* Top section: heading + body + CTA */}
-        <div className="px-6 sm:px-10 lg:px-14 pt-24 pb-4 max-w-lg">
+        <div className="pl-4 pr-12 sm:px-10 lg:px-14 pt-28 sm:pt-32 pb-4 max-w-lg">
           {/* PROJECTS heading */}
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.7 }}
           >
-            <h2 className="heading-display text-3xl sm:text-4xl lg:text-5xl">
+            <h2 className="heading-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
               PROJECTS
             </h2>
             <div className="golden-divider mt-4 mb-6" />
@@ -93,7 +93,7 @@ export function ProjectsFloor({ onBackToLobby }: ProjectsFloorProps) {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.7 }}
-          className="px-6 sm:px-10 lg:px-14 py-4"
+          className="pl-4 pr-12 sm:px-10 lg:px-14 py-4"
         >
           <div className="flex items-start gap-4 max-w-lg">
             {/* Thumbnail — gradient placeholder since we don't have a dedicated tower photo */}
@@ -109,13 +109,13 @@ export function ProjectsFloor({ onBackToLobby }: ProjectsFloorProps) {
                 FEATURED PROJECT
               </span>
               <h3
-                className="text-lg sm:text-xl font-light tracking-[0.2em] text-white mt-1"
+                className="text-base sm:text-lg md:text-xl font-light tracking-[0.1em] sm:tracking-[0.2em] text-white mt-1"
                 style={{ fontFamily: 'var(--font-outfit), var(--font-sans), system-ui, sans-serif' }}
               >
-                HORIZON TOWER
+                {featured.title.toUpperCase()}
               </h3>
               <p className="text-[10px] sm:text-xs tracking-[0.1em] text-white/50 font-light mt-0.5">
-                DUBAI, UAE
+                {featured.location.toUpperCase()}
               </p>
 
               {/* Stats row */}
@@ -142,6 +142,57 @@ export function ProjectsFloor({ onBackToLobby }: ProjectsFloorProps) {
               </button>
             </div>
           </div>
+
+          {/* Second project card — portfolio[0] */}
+          {SKYSCAPER_CONTENT.projects.portfolio.length > 0 && (
+            <div className="flex items-start gap-4 max-w-lg mt-6">
+              {/* Thumbnail — same gradient placeholder */}
+              <div className="flex-shrink-0 w-20 h-28 sm:w-24 sm:h-32 rounded-sm overflow-hidden bg-gradient-to-b from-amber-900/40 via-blue-950/60 to-blue-900/40 border border-white/10">
+                <div className="w-full h-full flex items-end justify-center pb-2">
+                  <Building2 className="w-8 h-8 text-[#c9a84c]/60" />
+                </div>
+              </div>
+
+              {/* Project info */}
+              <div className="flex-1">
+                <span className="text-[9px] sm:text-[10px] tracking-[0.15em] text-[#c9a84c] font-medium uppercase">
+                  PROJECT
+                </span>
+                <h3
+                  className="text-base sm:text-lg md:text-xl font-light tracking-[0.1em] sm:tracking-[0.2em] text-white mt-1"
+                  style={{ fontFamily: 'var(--font-outfit), var(--font-sans), system-ui, sans-serif' }}
+                >
+                  {SKYSCAPER_CONTENT.projects.portfolio[0].title.toUpperCase()}
+                </h3>
+                <p className="text-[10px] sm:text-xs tracking-[0.1em] text-white/50 font-light mt-0.5 max-w-xs">
+                  {SKYSCAPER_CONTENT.projects.portfolio[0].location.toUpperCase()}
+                </p>
+
+                {/* Stats row */}
+                <div className="flex items-center gap-4 mt-3">
+                  <div className="text-center">
+                    <div className="text-base sm:text-lg font-light text-white">{SKYSCAPER_CONTENT.projects.portfolio[0].floors}</div>
+                    <div className="text-[8px] sm:text-[9px] tracking-[0.1em] text-white/40 uppercase">FLOORS</div>
+                  </div>
+                  <div className="w-px h-8 bg-white/15" />
+                  <div className="text-center">
+                    <div className="text-base sm:text-lg font-light text-white">{SKYSCAPER_CONTENT.projects.portfolio[0].height}</div>
+                    <div className="text-[8px] sm:text-[9px] tracking-[0.1em] text-white/40 uppercase">HEIGHT</div>
+                  </div>
+                  <div className="w-px h-8 bg-white/15" />
+                  <div className="text-center">
+                    <div className="text-base sm:text-lg font-light text-white">{SKYSCAPER_CONTENT.projects.portfolio[0].yearCompleted}</div>
+                    <div className="text-[8px] sm:text-[9px] tracking-[0.1em] text-white/40 uppercase">COMPLETED</div>
+                  </div>
+                </div>
+
+                {/* View Details link */}
+                <button className="mt-3 inline-flex items-center gap-1.5 text-[10px] tracking-[0.1em] text-white/50 hover:text-white/80 transition-colors uppercase">
+                  VIEW DETAILS <ArrowRight className="w-3 h-3" />
+                </button>
+              </div>
+            </div>
+          )}
         </motion.div>
 
         {/* Bottom global stats */}
@@ -149,10 +200,10 @@ export function ProjectsFloor({ onBackToLobby }: ProjectsFloorProps) {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.75, duration: 0.7 }}
-          className="mt-auto px-6 sm:px-10 lg:px-14 pb-4"
+          className="mt-auto pl-4 pr-12 sm:px-10 lg:px-14 pb-4"
         >
           <div className="w-full h-px bg-white/10 mb-5" />
-          <div className="flex items-start justify-center gap-8 sm:gap-14 lg:gap-20">
+          <div className="flex flex-wrap items-start justify-center gap-4 sm:gap-8 md:gap-14 lg:gap-20">
             {SKYSCAPER_CONTENT.projects.globalStats.map((stat, idx) => (
               <div key={stat.id} className="flex flex-col items-center text-center">
                 <div className="mb-1.5 opacity-70">
@@ -174,7 +225,7 @@ export function ProjectsFloor({ onBackToLobby }: ProjectsFloorProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9, duration: 0.7 }}
-          className="px-6 sm:px-10 lg:px-14 pb-6"
+          className="pl-4 pr-12 sm:px-10 lg:px-14 pb-6"
         >
           <button onClick={onBackToLobby} className="back-link">
             <ArrowLeft className="w-3.5 h-3.5" />

@@ -1,20 +1,17 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Volume2, VolumeX } from 'lucide-react';
 
 interface NavigationHeaderProps {
   show: boolean;
 }
 
 export function NavigationHeader({ show }: NavigationHeaderProps) {
-  const [isAudioMuted, setIsAudioMuted] = useState(true);
-
   if (!show) return null;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 px-6 sm:px-10 py-5 flex items-start justify-between pointer-events-none">
+    <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 md:px-10 py-3 sm:py-5 flex items-start justify-between pointer-events-none bg-gradient-to-b from-[#070d18]/90 via-[#070d18]/50 to-transparent pb-8 sm:pb-10">
       {/* Top-Left: Logo Icon + Wordmark */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
@@ -23,7 +20,7 @@ export function NavigationHeader({ show }: NavigationHeaderProps) {
         className="flex items-center gap-3 pointer-events-auto"
       >
         {/* Tower Icon SVG matching the reference */}
-        <div className="w-10 h-12 flex items-center justify-center">
+        <div className="w-7 h-9 sm:w-10 sm:h-12 flex items-center justify-center">
           <svg
             viewBox="0 0 40 48"
             fill="none"
@@ -43,44 +40,18 @@ export function NavigationHeader({ show }: NavigationHeaderProps) {
 
         <div>
           <h1
-            className="text-base sm:text-lg font-light tracking-[0.35em] text-white"
+            className="text-sm sm:text-base md:text-lg font-light tracking-[0.2em] sm:tracking-[0.35em] text-white"
             style={{ fontFamily: 'var(--font-outfit), var(--font-sans), system-ui, sans-serif' }}
           >
             SKYSCAPER
           </h1>
           <p
-            className="text-[10px] tracking-[0.2em] text-white/50 font-light mt-0.5"
+            className="text-[8px] sm:text-[10px] tracking-[0.15em] sm:tracking-[0.2em] text-white/50 font-light mt-0.5"
             style={{ fontFamily: 'var(--font-sans), system-ui, sans-serif' }}
           >
-            BUILDING TOMORROW
+            BUILDING BEYOND EXPECTATIONS
           </p>
         </div>
-      </motion.div>
-
-      {/* Top-Right: Sound Toggle */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="flex items-center gap-3 pointer-events-auto"
-      >
-        <span
-          className="text-xs tracking-[0.15em] text-white/50 font-light hidden sm:inline"
-          style={{ fontFamily: 'var(--font-sans), system-ui, sans-serif' }}
-        >
-          SOUND
-        </span>
-        <button
-          onClick={() => setIsAudioMuted(!isAudioMuted)}
-          className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white/40 transition-all"
-          title={isAudioMuted ? 'Unmute' : 'Mute'}
-        >
-          {isAudioMuted ? (
-            <VolumeX className="w-4 h-4" />
-          ) : (
-            <Volume2 className="w-4 h-4" />
-          )}
-        </button>
       </motion.div>
     </header>
   );

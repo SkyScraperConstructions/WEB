@@ -35,7 +35,8 @@
 .page-container {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  height: 100dvh; /* modern viewport units for mobile */
   overflow: hidden;
 }
 
@@ -44,10 +45,32 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  min-height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  overscroll-behavior: contain; /* isolate scroll — don't leak to parent */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* On-brand scrollbar for content panels */
+.content-overlay::-webkit-scrollbar {
+  width: 4px;
+}
+.content-overlay::-webkit-scrollbar-track {
+  background: transparent;
+}
+.content-overlay::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+}
+.content-overlay::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 168, 76, 0.4);
+}
+/* Firefox */
+.content-overlay {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
 }
 
 /* ===== Glassmorphic Card Utilities ===== */
@@ -230,24 +253,30 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-right: 1rem;
+  padding-left: 2.5rem; /* room for the icon (left-3 + w-4 + gap) */
+  background: rgba(10, 22, 40, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(201, 168, 76, 0.25);
+  border-radius: 6px;
   color: #fff;
   font-family: var(--font-sans), system-ui, sans-serif;
   font-size: 0.85rem;
   font-weight: 300;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, background 0.3s ease;
 }
 
 .form-input::placeholder {
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .form-input:focus {
   outline: none;
-  border-color: rgba(201, 168, 76, 0.6);
+  border-color: rgba(201, 168, 76, 0.7);
+  background: rgba(10, 22, 40, 0.85);
 }
 
 .form-input.error {
@@ -259,22 +288,28 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
-  color: rgba(255, 255, 255, 0.35);
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-right: 1rem;
+  padding-left: 2.5rem; /* room for the icon */
+  background: rgba(10, 22, 40, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(201, 168, 76, 0.25);
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.4);
   font-family: var(--font-sans), system-ui, sans-serif;
   font-size: 0.85rem;
   font-weight: 300;
   cursor: pointer;
   appearance: none;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, background 0.3s ease;
 }
 
 .form-select:focus {
   outline: none;
-  border-color: rgba(201, 168, 76, 0.6);
+  border-color: rgba(201, 168, 76, 0.7);
+  background: rgba(10, 22, 40, 0.85);
   color: #fff;
 }
 
@@ -335,3 +370,85 @@
 .animate-pulse-slow {
   animation: pulseSlow 3s ease-in-out infinite;
 }
+
+/* =============================================================
+   MOBILE RESPONSIVE OVERRIDES  (max-width: 639px)
+   ============================================================= */
+@media (max-width: 639px) {
+  /* --- Typography --- */
+  .heading-display {
+    letter-spacing: 0.15em;
+  }
+
+  .body-text {
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.55rem;
+  }
+
+  /* --- Pill Button: touch-friendly --- */
+  .pill-button {
+    min-height: 44px;
+    padding: 0.65rem 1.5rem;
+    font-size: 0.7rem;
+  }
+
+  /* --- Dot Rail: compact vertical, dots only --- */
+  .dot-rail {
+    right: 0.75rem;
+    gap: 0.75rem;
+  }
+
+  .dot-rail-number {
+    display: none;
+  }
+
+  .dot-rail-dot {
+    width: 12px;
+    height: 12px;
+  }
+
+  .dot-rail-item {
+    /* Ensure 44px touch area even though dot is small */
+    padding: 8px;
+    margin: -8px;
+  }
+
+  .dot-rail-item.active .dot-rail-dot {
+    width: 14px;
+    height: 14px;
+  }
+
+  .dot-rail-line {
+    right: 13px; /* re-center line under larger dots */
+  }
+
+  /* --- Back to Lobby: touch target --- */
+  .back-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* --- Form Inputs: slightly larger for touch --- */
+  .form-input,
+  .form-select {
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+    font-size: 1rem; /* 16px prevents iOS zoom on focus */
+    border-radius: 8px;
+  }
+
+  /* --- Golden Divider --- */
+  .golden-divider {
+    width: 32px;
+  }
+}
+

@@ -83,13 +83,13 @@ export function ContactFloor({ onBackToLobby }: ContactFloorProps) {
       {/* Content overlay */}
       <div className="content-overlay">
         {/* Main content area — left side */}
-        <div className="flex-1 flex flex-col justify-start px-6 sm:px-10 lg:px-14 pt-24 pb-4 max-w-sm">
+        <div className="flex-1 flex flex-col justify-start pl-4 pr-12 sm:px-10 lg:px-14 pt-28 sm:pt-32 pb-4 w-full sm:max-w-sm">
           {/* CONTACT US heading */}
           <motion.h2
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.7 }}
-            className="heading-display text-3xl sm:text-4xl lg:text-5xl mb-5"
+            className="heading-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4 sm:mb-5"
           >
             CONTACT US
           </motion.h2>
@@ -151,7 +151,7 @@ export function ContactFloor({ onBackToLobby }: ContactFloorProps) {
                       placeholder="Your Name"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className={`form-input pl-10 ${errors.name ? 'error' : ''}`}
+                      className={`form-input ${errors.name ? 'error' : ''}`}
                     />
                   </div>
                   {errors.name && (
@@ -168,7 +168,7 @@ export function ContactFloor({ onBackToLobby }: ContactFloorProps) {
                       placeholder="Email Address"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className={`form-input pl-10 ${errors.email ? 'error' : ''}`}
+                      className={`form-input ${errors.email ? 'error' : ''}`}
                     />
                   </div>
                   {errors.email && (
@@ -184,7 +184,7 @@ export function ContactFloor({ onBackToLobby }: ContactFloorProps) {
                     placeholder="Company (Optional)"
                     value={formData.company}
                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                    className="form-input pl-10"
+                    className="form-input"
                   />
                 </div>
 
@@ -194,7 +194,7 @@ export function ContactFloor({ onBackToLobby }: ContactFloorProps) {
                   <select
                     value={formData.projectType}
                     onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
-                    className="form-select pl-10"
+                    className="form-select"
                   >
                     <option value="" disabled>Project Type</option>
                     {SKYSCAPER_CONTENT.contact.formOptions.map((opt) => (
@@ -213,7 +213,7 @@ export function ContactFloor({ onBackToLobby }: ContactFloorProps) {
                       rows={3}
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className={`form-input pl-10 resize-none ${errors.message ? 'error' : ''}`}
+                      className={`form-input resize-none ${errors.message ? 'error' : ''}`}
                       style={{ alignItems: 'flex-start' }}
                     />
                   </div>
@@ -250,11 +250,11 @@ export function ContactFloor({ onBackToLobby }: ContactFloorProps) {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.7, duration: 0.7 }}
-          className="px-6 sm:px-10 lg:px-14 pb-4"
+          className="pl-4 pr-12 sm:px-10 lg:px-14 pb-4"
         >
           <div className="w-full h-px bg-white/10 mb-5" />
 
-          <div className="flex flex-wrap items-start gap-8 sm:gap-12">
+          <div className="flex flex-wrap items-start gap-4 sm:gap-8 md:gap-12">
             {/* Call Us */}
             <div className="flex flex-col items-start gap-1">
               <div className="flex items-center gap-2 mb-1">
@@ -351,7 +351,7 @@ export function ContactFloor({ onBackToLobby }: ContactFloorProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9, duration: 0.7 }}
-          className="px-6 sm:px-10 lg:px-14 pb-6"
+          className="pl-4 pr-12 sm:px-10 lg:px-14 pb-6"
         >
           <button onClick={onBackToLobby} className="back-link">
             <ArrowLeft className="w-3.5 h-3.5" />

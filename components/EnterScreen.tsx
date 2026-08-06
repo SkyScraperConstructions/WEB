@@ -31,8 +31,8 @@ export function EnterScreen({ onEnterLobby }: EnterScreenProps) {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="heading-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
-            style={{ letterSpacing: '0.45em' }}
+            className="heading-display text-2xl sm:text-4xl md:text-5xl lg:text-7xl px-4"
+            style={{ letterSpacing: 'clamp(0.15em, 3vw, 0.45em)' }}
           >
             SKYSCAPER
           </motion.h1>
@@ -42,10 +42,10 @@ export function EnterScreen({ onEnterLobby }: EnterScreenProps) {
             initial={{ y: 15, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="text-sm sm:text-base tracking-[0.3em] text-white/60 font-light"
+            className="text-[10px] sm:text-sm md:text-base tracking-[0.2em] sm:tracking-[0.3em] text-white/60 font-light px-4"
             style={{ fontFamily: 'var(--font-outfit), var(--font-sans), system-ui, sans-serif' }}
           >
-            BUILDING TOMORROW
+            BUILDING BEYOND EXPECTATIONS
           </motion.p>
 
           {/* ENTER button */}

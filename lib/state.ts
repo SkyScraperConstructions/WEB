@@ -17,7 +17,7 @@ export type SectionId = (typeof VALID_SECTIONS)[number];
 export function useSceneState() {
   const [sceneState, setSceneState] = useState<SceneState>('intro');
 
-  // Sync state with URL Hash
+  // Sync state with URL Hash — but never skip the intro on first load
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '').toLowerCase();
@@ -30,9 +30,8 @@ export function useSceneState() {
       }
     };
 
-    // Initial load check
-    handleHashChange();
-
+    // Only apply hash on subsequent hash changes, NOT on initial mount
+    // (so the intro always plays first)
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);

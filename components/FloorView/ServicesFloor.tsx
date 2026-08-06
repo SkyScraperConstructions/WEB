@@ -55,13 +55,13 @@ export function ServicesFloor({ onBackToLobby }: ServicesFloorProps) {
       {/* Content overlay */}
       <div className="content-overlay">
         {/* Top section: heading + body + CTA */}
-        <div className="px-6 sm:px-10 lg:px-14 pt-24 pb-4 max-w-md">
+        <div className="pl-4 pr-12 sm:px-10 lg:px-14 pt-28 sm:pt-32 pb-4 max-w-md">
           {/* SERVICES heading */}
           <motion.h2
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.7 }}
-            className="heading-display text-3xl sm:text-4xl lg:text-5xl mb-6"
+            className="heading-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4 sm:mb-6"
           >
             SERVICES
           </motion.h2>
@@ -98,9 +98,9 @@ export function ServicesFloor({ onBackToLobby }: ServicesFloorProps) {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.7 }}
-          className="px-6 sm:px-10 lg:px-14 py-4"
+          className="pl-4 pr-12 sm:px-10 lg:px-14 py-4"
         >
-          <div className="grid grid-cols-3 gap-x-6 gap-y-5 max-w-md">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-4 sm:gap-x-6 gap-y-4 sm:gap-y-5 max-w-md">
             {SKYSCAPER_CONTENT.services.list.map((srv) => (
               <div key={srv.id} className="flex flex-col items-start">
                 <div className="mb-2">
@@ -125,10 +125,10 @@ export function ServicesFloor({ onBackToLobby }: ServicesFloorProps) {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.75, duration: 0.7 }}
-          className="mt-auto px-6 sm:px-10 lg:px-14 pb-4"
+          className="mt-auto pl-4 pr-12 sm:px-10 lg:px-14 pb-4"
         >
           <div className="w-full max-w-md h-px bg-white/10 mb-5" />
-          <div className="flex items-start gap-6 sm:gap-10 max-w-md">
+          <div className="flex flex-wrap items-start gap-4 sm:gap-10 max-w-md">
             {SKYSCAPER_CONTENT.services.stats.map((stat, idx) => (
               <div key={stat.id} className="flex flex-col items-start">
                 <div className="mb-1.5 opacity-70">
@@ -150,7 +150,7 @@ export function ServicesFloor({ onBackToLobby }: ServicesFloorProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9, duration: 0.7 }}
-          className="px-6 sm:px-10 lg:px-14 pb-6"
+          className="pl-4 pr-12 sm:px-10 lg:px-14 pb-6"
         >
           <button onClick={onBackToLobby} className="back-link">
             <ArrowLeft className="w-3.5 h-3.5" />
