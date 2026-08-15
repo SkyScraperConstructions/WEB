@@ -2,14 +2,11 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { AnimatedCounter } from '../AnimatedCounter';
 import { SKYSCAPER_CONTENT } from '@/lib/content';
 import {
   ArrowLeft,
   ArrowRight,
-  Globe,
   Building2,
-  Award,
   MapPin,
 } from 'lucide-react';
 
@@ -17,12 +14,6 @@ interface ProjectsFloorProps {
   onBackToLobby: () => void;
 }
 
-const globalStatIcons = [
-  <Globe key="globe" className="w-5 h-5 text-[#c9a84c]" />,
-  <Building2 key="building" className="w-5 h-5 text-[#c9a84c]" />,
-  <Award key="award" className="w-5 h-5 text-[#c9a84c]" />,
-  <MapPin key="map" className="w-5 h-5 text-[#c9a84c]" />,
-];
 
 export function ProjectsFloor({ onBackToLobby }: ProjectsFloorProps) {
   const featured = SKYSCAPER_CONTENT.projects.featured;
@@ -71,21 +62,6 @@ export function ProjectsFloor({ onBackToLobby }: ProjectsFloorProps) {
             </p>
           </motion.div>
 
-          {/* VIEW ALL PROJECTS button */}
-          <motion.div
-            initial={{ y: 15, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.7 }}
-          >
-            <motion.button
-              className="pill-button"
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.96 }}
-            >
-              <span>VIEW ALL PROJECTS</span>
-              <ArrowRight className="w-4 h-4" />
-            </motion.button>
-          </motion.div>
         </div>
 
         {/* Featured project card */}
@@ -195,30 +171,6 @@ export function ProjectsFloor({ onBackToLobby }: ProjectsFloorProps) {
           )}
         </motion.div>
 
-        {/* Bottom global stats */}
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.75, duration: 0.7 }}
-          className="mt-auto pl-4 pr-12 sm:px-10 lg:px-14 pb-4"
-        >
-          <div className="w-full h-px bg-white/10 mb-5" />
-          <div className="flex flex-wrap items-start justify-center gap-4 sm:gap-8 md:gap-14 lg:gap-20">
-            {SKYSCAPER_CONTENT.projects.globalStats.map((stat, idx) => (
-              <div key={stat.id} className="flex flex-col items-center text-center">
-                <div className="mb-1.5 opacity-70">
-                  {globalStatIcons[idx]}
-                </div>
-                <div className="stat-value text-xl sm:text-2xl">
-                  <AnimatedCounter end={stat.value} suffix={stat.suffix} />
-                </div>
-                <div className="stat-label whitespace-pre-line text-center">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
 
         {/* Back to Lobby */}
         <motion.div

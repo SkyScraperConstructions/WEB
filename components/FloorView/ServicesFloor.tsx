@@ -2,20 +2,15 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { AnimatedCounter } from '../AnimatedCounter';
 import { SKYSCAPER_CONTENT } from '@/lib/content';
 import {
   ArrowLeft,
-  ArrowRight,
   Building2,
   Cpu,
   HardHat,
   BarChart3,
   LayoutGrid,
   Leaf,
-  Globe,
-  Users,
-  Award,
 } from 'lucide-react';
 
 interface ServicesFloorProps {
@@ -31,12 +26,6 @@ const serviceIconMap: Record<string, React.ReactNode> = {
   Leaf: <Leaf className="w-7 h-7 text-white/70" />,
 };
 
-const statIcons = [
-  <Globe key="globe" className="w-5 h-5 text-[#c9a84c]" />,
-  <Users key="users" className="w-5 h-5 text-[#c9a84c]" />,
-  <Globe key="globe2" className="w-5 h-5 text-[#c9a84c]" />,
-  <Award key="award" className="w-5 h-5 text-[#c9a84c]" />,
-];
 
 export function ServicesFloor({ onBackToLobby }: ServicesFloorProps) {
   return (
@@ -66,31 +55,14 @@ export function ServicesFloor({ onBackToLobby }: ServicesFloorProps) {
             SERVICES
           </motion.h2>
 
-          {/* Body text */}
           <motion.p
             initial={{ y: 15, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.35, duration: 0.7 }}
-            className="body-text mb-6"
+            className="body-text"
           >
             {SKYSCAPER_CONTENT.services.bodyText}
           </motion.p>
-
-          {/* EXPLORE SERVICES button */}
-          <motion.div
-            initial={{ y: 15, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.7 }}
-          >
-            <motion.button
-              className="pill-button"
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.96 }}
-            >
-              <span>EXPLORE SERVICES</span>
-              <ArrowRight className="w-4 h-4" />
-            </motion.button>
-          </motion.div>
         </div>
 
         {/* Services grid (2 rows x 3 cols) */}
@@ -120,30 +92,6 @@ export function ServicesFloor({ onBackToLobby }: ServicesFloorProps) {
           </div>
         </motion.div>
 
-        {/* Bottom stats strip */}
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.75, duration: 0.7 }}
-          className="mt-auto pl-4 pr-12 sm:px-10 lg:px-14 pb-4"
-        >
-          <div className="w-full max-w-md h-px bg-white/10 mb-5" />
-          <div className="flex flex-wrap items-start gap-4 sm:gap-10 max-w-md">
-            {SKYSCAPER_CONTENT.services.stats.map((stat, idx) => (
-              <div key={stat.id} className="flex flex-col items-start">
-                <div className="mb-1.5 opacity-70">
-                  {statIcons[idx]}
-                </div>
-                <div className="stat-value text-xl sm:text-2xl">
-                  <AnimatedCounter end={stat.value} suffix={stat.suffix} />
-                </div>
-                <div className="stat-label whitespace-pre-line">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
 
         {/* Back to Lobby */}
         <motion.div

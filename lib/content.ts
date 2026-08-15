@@ -267,8 +267,8 @@ export const SKYSCAPER_CONTENT = {
     heading: 'CONTACT US',
     bodyText: "Let's build something extraordinary together. Tell us about your project and our team will get back to you shortly.",
     formOptions: ['Architectural Consultation', 'Structural Engineering Audit', 'Press & Media Inquiry', 'Investor Relations'],
-    phone: '+971 4 123 4567',
-    email: 'info@skyscaper.com',
-    officeLocation: '72nd Floor, Skyscaper Tower\nDubai, UAE',
+    phone: '+91 63830 70791',
+    email: 'info.skyscraperconstructions@gmail.com',
+    officeLocation: 'No.21/8, Nadu Street, West Chintamani\nTrichy - 620002',
   },
 };

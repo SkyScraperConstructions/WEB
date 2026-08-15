@@ -88,7 +88,7 @@ export default function Home() {
             exit="exit"
             transition={pageTransitionConfig}
           >
-            <AboutFloor onBackToLobby={backToLobby} onNavigateSection={goToState} />
+            <AboutFloor onBackToLobby={backToLobby} />
           </motion.div>
         )}
 

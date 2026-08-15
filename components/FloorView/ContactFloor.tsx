@@ -343,17 +343,11 @@ export function ContactFloor({ onBackToLobby }: ContactFloorProps) {
             >
               FOLLOW US
             </span>
-            {/* LinkedIn */}
-            <a
-              href="#"
-              className="w-8 h-8 rounded border border-white/15 flex items-center justify-center text-white/50 hover:text-white hover:border-white/40 transition-all"
-              aria-label="LinkedIn"
-            >
-              <span className="text-xs font-bold">in</span>
-            </a>
             {/* Instagram */}
             <a
-              href="#"
+              href="https://www.instagram.com/theskyscraperco"
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-8 h-8 rounded border border-white/15 flex items-center justify-center text-white/50 hover:text-white hover:border-white/40 transition-all"
               aria-label="Instagram"
             >
@@ -361,17 +355,6 @@ export function ContactFloor({ onBackToLobby }: ContactFloorProps) {
                 <rect x="2" y="2" width="20" height="20" rx="5" />
                 <circle cx="12" cy="12" r="5" />
                 <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
-              </svg>
-            </a>
-            {/* YouTube */}
-            <a
-              href="#"
-              className="w-8 h-8 rounded border border-white/15 flex items-center justify-center text-white/50 hover:text-white hover:border-white/40 transition-all"
-              aria-label="YouTube"
-            >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
-                <rect x="2" y="4" width="20" height="16" rx="4" />
-                <polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none" />
               </svg>
             </a>
           </div>
