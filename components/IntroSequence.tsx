@@ -58,6 +58,7 @@ export function IntroSequence({ onComplete }: IntroSequenceProps) {
         muted
         playsInline
         loop
+        preload="auto"
         className="absolute inset-0 w-full h-full object-cover scale-125 blur-3xl opacity-60 pointer-events-none"
       />
 
@@ -81,6 +82,8 @@ export function IntroSequence({ onComplete }: IntroSequenceProps) {
         autoPlay
         muted
         playsInline
+        preload="auto"
+        poster="/intro-poster.jpg"
         onTimeUpdate={handleTimeUpdate}
         onEnded={handleVideoEnd}
         className="relative z-10 w-full h-full object-contain sm:object-cover shadow-[0_0_50px_rgba(0,0,0,0.8)]"
